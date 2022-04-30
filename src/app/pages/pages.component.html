@@ -1,0 +1,152 @@
+<div class="demo-box">
+  <div class="demo-box-example">
+    <div class="alert alert-danger" role="alert" *ngIf="showErrorMessage">
+      <i class="material-icons text-danger">error</i>
+      <span [innerHTML]="errorMessage"></span>
+    </div>
+
+    <form
+      class="form-horizontal p-t-20"
+      [formGroup]="fizzBuzzForm"
+      (submit)="callFizzBuzz()"
+    >
+      <fieldset>
+        <legend class="f-18 f-md-22">Fizzbuzz</legend>
+
+        <div class="form-group row">
+          <label for="inputMin" class="col-md-2 col-form-label text-md-right"
+            >Mínimo:</label
+          >
+          <div class="col-md-4">
+            <input
+              type="number"
+              class="form-control"
+              id="inputMin"
+              placeholder="Mínimo"
+              formControlName="min"
+            />
+            <div
+              class="invalid-feedback"
+              *ngIf="
+                minValue &&
+                minValue.errors?.required &&
+                (minValue.dirty || minValue.touched)
+              "
+            >
+              Ingrese mínimo
+            </div>
+            <div
+              class="invalid-feedback"
+              *ngIf="
+                minValue &&
+                (minValue.errors?.min || minValue.errors?.max) &&
+                (minValue.dirty || minValue.touched)
+              "
+            >
+              Ingrese un valor entre -50 y 50
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="inputMax" class="col-md-2 col-form-label text-md-right"
+            >Máximo:</label
+          >
+          <div class="col-md-4">
+            <input
+              type="number"
+              class="form-control"
+              id="inputMax"
+              placeholder="Máximo"
+              formControlName="max"
+            />
+            <div
+              class="invalid-feedback"
+              *ngIf="
+                maxValue &&
+                maxValue.errors?.required &&
+                (maxValue.dirty || maxValue.touched)
+              "
+            >
+              Ingrese valor máximo
+            </div>
+
+            <div
+              class="invalid-feedback"
+              *ngIf="
+                maxValue &&
+                (maxValue.errors?.min || maxValue.errors?.max) &&
+                (maxValue.dirty || maxValue.touched)
+              "
+            >
+              Ingrese un valor entre -50 y 50
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-md-2 col-form-label text-md-right"></label>
+          <div class="col-md-4">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="fizzBuzzForm.invalid"
+            >
+              Fizzbuzz!
+            </button>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+
+    <fieldset *ngIf="operationResults.length > 0">
+      <legend class="f-18 f-md-22">Resultados</legend>
+
+      <table class="table custom-table" *ngIf="operationResults.length > 0">
+        <caption class="sr-only">
+          Resultados
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col" style="width: 8%">
+              Código
+              <button class="btn-icon" type="button"></button>
+            </th>
+            <th scope="col" style="width: 15%">
+              Fecha
+              <button class="btn-icon" type="button"></button>
+            </th>
+            <th scope="col" style="width: 8%">
+              Mínimo
+              <button class="btn-icon" type="button"></button>
+            </th>
+            <th scope="col" style="width: 8%">
+              Máximo
+              <button class="btn-icon btn-icon-up" type="button"></button>
+            </th>
+            <th scope="col" style="width: 26%">
+              Descripción
+              <button class="btn-icon btn-icon-up" type="button"></button>
+            </th>
+            <th scope="col" style="width: 35%">
+              Lista
+              <button class="btn-icon btn-icon-up" type="button"></button>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let operation of operationResults">
+            <td data-title="Código">{{ operation.code }}</td>
+            <td data-title="Fecha">
+              {{ operation.timestamp | date: "dd/MM/yyyy HH:mm:ss" }}
+            </td>
+            <td data-title="Valor mínimo">{{ operation.min }}</td>
+            <td data-title="Valor máximo">{{ operation.max }}</td>
+            <td data-title="Descripción">{{ operation.description }}</td>
+            <td data-title="Lista">{{ operation.list }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </fieldset>
+  </div>
+</div>
